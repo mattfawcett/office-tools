@@ -5,6 +5,12 @@
     "require": {
         "guzzlehttp/guzzle": "^7.4"
     },
+    "autoload": {
+        "psr-4": {
+            "WebmergeOfficeTools\\": "src",
+            "Tests\\": "tests"
+        }
+    },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
     },
