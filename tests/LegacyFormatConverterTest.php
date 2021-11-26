@@ -1,8 +1,6 @@
 <?php
 namespace Tests;
 
-use WebmergeOfficeTools\Configuration;
-use WebmergeOfficeTools\Configure;
 use WebmergeOfficeTools\Exceptions\ValidationException;
 use WebmergeOfficeTools\LegacyFormatConverter;
 
@@ -18,8 +16,6 @@ class LegacyFormatConverterTest extends TestCase
     /** @dataProvider legacyFormatConverterImplementations **/
     public function testConvertDoc(LegacyFormatConverter $converter)
     {
-        Configuration::skipVerifyTls();
-        Configuration::setProxy('localhost:8888');
         $inputPath = $this->inputFilePath('legacy.doc');
         $outputPath = $this->outputFilePath($converter, 'legacy-converted.docx');
 

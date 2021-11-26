@@ -1,12 +1,23 @@
 <?php
 namespace Tests;
 
+use WebmergeOfficeTools\Configuration;
 use WebmergeOfficeTools\Implementations\ConvertApiDotCom;
 use WebmergeOfficeTools\LegacyFormatConverter;
 use ZipArchive;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        if(getenv('PROXY_TO_CHARLES')) {
+            Configuration::skipVerifyTls();
+            Configuration::setProxy('localhost:8888');
+        }
+
+        \PHPUnit\Framework\TestCase::setUpBeforeClass();
+    }
+
     /** @return LegacyFormatConverter[] **/
     public function legacyFormatConverterImplementations(): array
     {
