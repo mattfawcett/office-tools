@@ -1,2 +1,2 @@
-/vendor/
-/tests/_output_files/
+vendor/
+tests/output_files

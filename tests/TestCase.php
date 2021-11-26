@@ -76,7 +76,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             return false;
         }
 
-        unlink($path);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
         return true;
     }
 
