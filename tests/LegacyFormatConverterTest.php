@@ -26,4 +26,18 @@ class LegacyFormatConverterTest extends TestCase
         $zip = $this->assertZip($outputPath);
         $this->assertZipHasFileNamed($zip, 'word/document.xml');
     }
+
+    /** @dataProvider legacyFormatConverterImplementations **/
+    public function testConvertXls(LegacyFormatConverter $converter)
+    {
+        $inputPath = $this->inputFilePath('legacy.xls');
+        $outputPath = $this->outputFilePath($converter, 'legacy-converted.xlsx');
+
+        if ($this->shouldRegenerate($outputPath)) {
+            $converter->convert($inputPath, $outputPath, 'xls');
+        }
+
+        $zip = $this->assertZip($outputPath);
+        $this->assertZipHasFileNamed($zip, 'word/document.xml');
+    }
 }
