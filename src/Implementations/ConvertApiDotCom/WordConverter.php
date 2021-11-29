@@ -1,6 +1,7 @@
 <?php
 namespace WebmergeOfficeTools\Implementations\ConvertApiDotCom;
 
+use WebmergeOfficeTools\Exceptions\ValidationException;
 use WebmergeOfficeTools\WordConverter as WordConverterInterface;
 
 class WordConverter implements WordConverterInterface
@@ -16,7 +17,13 @@ class WordConverter implements WordConverterInterface
     {
         $fileId = $this->client->uploadFile($filePath)['FileId'];
 
-        $conversionResponse = $this->client->post("/convert/docx/to/pdf", [
+        if (!preg_match('/\.(doc|docx|docm)$/', $filePath, $matches)) {
+            throw new ValidationException('Word document must have doc, docx or docm extension');
+        }
+
+        $inputExtension = $matches[1];
+
+        $conversionResponse = $this->client->post("/convert/$inputExtension/to/pdf", [
             'File' => $fileId,
         ]);
 
