@@ -33,6 +33,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function wordConverterImplementations(): array
     {
         return [
+            [new ConvertApiDotCom\WordConverter($this->convertApiClient())],
             [new LegacyWindows\WordConverter($this->legacyWindowsGeneralConverter())],
         ];
     }
