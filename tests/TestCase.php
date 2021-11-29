@@ -3,6 +3,7 @@ namespace Tests;
 
 use WebmergeOfficeTools\Configuration;
 use WebmergeOfficeTools\Implementations\ConvertApiDotCom;
+use WebmergeOfficeTools\Implementations\LegacyWindows;
 use WebmergeOfficeTools\LegacyFormatConverter;
 use ZipArchive;
 
@@ -22,7 +23,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function legacyFormatConverterImplementations(): array
     {
         return [
-            [new ConvertApiDotCom\LegacyFormatConverter($this->convertApiClient())]
+            [new ConvertApiDotCom\LegacyFormatConverter($this->convertApiClient())],
+            [new LegacyWindows\LegacyFormatConverter($this->legacyWindowsGeneralConverter())],
         ];
     }
 
@@ -86,5 +88,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     private function convertApiClient(): ConvertApiDotCom\HttpClient
     {
         return (new ConvertApiDotCom\HttpClient(new \GuzzleHttp\Client))->setSecret('POOUE3or0L5CvOAP');
+    }
+
+    private function legacyWindowsGeneralConverter(): LegacyWindows\GeneralConverter
+    {
+        return (new LegacyWindows\GeneralConverter(new \GuzzleHttp\Client));
     }
 }

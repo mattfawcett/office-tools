@@ -30,6 +30,10 @@ class LegacyFormatConverterTest extends TestCase
     /** @dataProvider legacyFormatConverterImplementations **/
     public function testConvertXls(LegacyFormatConverter $converter)
     {
+        if ($converter instanceof \WebmergeOfficeTools\Implementations\ConvertApiDotCom\LegacyFormatConverter) {
+            $this->markTestSkipped('Convert API does not have xls to xlsx conversion yet');
+        }
+
         $inputPath = $this->inputFilePath('legacy.xls');
         $outputPath = $this->outputFilePath($converter, 'legacy-converted.xlsx');
 
@@ -38,6 +42,27 @@ class LegacyFormatConverterTest extends TestCase
         }
 
         $zip = $this->assertZip($outputPath);
-        $this->assertZipHasFileNamed($zip, 'word/document.xml');
+        $this->assertZipHasFileNamed($zip, 'xl/workbook.xml');
+    }
+
+    /** @dataProvider legacyFormatConverterImplementations **/
+    public function testConvertPpt(LegacyFormatConverter $converter)
+    {
+        if ($converter instanceof \WebmergeOfficeTools\Implementations\ConvertApiDotCom\LegacyFormatConverter) {
+            $this->markTestSkipped('Convert API does not have ppt to pptx conversion yet');
+        }
+        if ($converter instanceof \WebmergeOfficeTools\Implementations\LegacyWindows\LegacyFormatConverter) {
+            $this->markTestSkipped('ppt to pptx conversion on legacy windows does not actually work');
+        }
+
+        $inputPath = $this->inputFilePath('legacy.ppt');
+        $outputPath = $this->outputFilePath($converter, 'legacy-converted.pptx');
+
+        if ($this->shouldRegenerate($outputPath)) {
+            $converter->convert($inputPath, $outputPath, 'ppt');
+        }
+
+        $zip = $this->assertZip($outputPath);
+        $this->assertZipHasFileNamed($zip, 'ppt/presentation.xml');
     }
 }
