@@ -6,6 +6,7 @@ use WebmergeOfficeTools\ExcelConverter;
 use WebmergeOfficeTools\Implementations\ConvertApiDotCom;
 use WebmergeOfficeTools\Implementations\LegacyWindows;
 use WebmergeOfficeTools\LegacyFormatConverter;
+use WebmergeOfficeTools\PowerpointConverter;
 use WebmergeOfficeTools\WordConverter;
 use ZipArchive;
 
@@ -45,6 +46,15 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return [
             [new ConvertApiDotCom\ExcelConverter($this->convertApiClient())],
             [new LegacyWindows\ExcelConverter($this->legacyWindowsGeneralConverter())],
+        ];
+    }
+
+    /** @return PowerpointConverter[] **/
+    public function powerpointConverterImplementations(): array
+    {
+        return [
+            [new ConvertApiDotCom\PowerpointConverter($this->convertApiClient())],
+            [new LegacyWindows\PowerpointConverter($this->legacyWindowsGeneralConverter())],
         ];
     }
 
@@ -104,7 +114,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function assertImagesSimilar(string $fileA, string $fileB): void
     {
-        exec("idiff -fail 0.004 -failpercent 20 $fileA $fileB", $output);
+        exec("idiff -fail 0.004 -failpercent 5 $fileA $fileB", $output);
 
         if ($output[1] === 'PASS') {
             $this->addToAssertionCount(1);

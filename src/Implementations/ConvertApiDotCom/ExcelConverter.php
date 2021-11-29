@@ -15,11 +15,11 @@ class ExcelConverter implements ExcelConverterInterface
 
     public function convertToPdf(string $filePath, string $outupFilePath): void
     {
-        $fileId = $this->client->uploadFile($filePath)['FileId'];
-
         if (!preg_match('/\.xlsx$/', $filePath, $matches)) {
             throw new ValidationException('Excel document must have xlsx extension');
         }
+
+        $fileId = $this->client->uploadFile($filePath)['FileId'];
 
         $conversionResponse = $this->client->post("/convert/xlsx/to/pdf", [
             'File' => $fileId,
