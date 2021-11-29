@@ -17,8 +17,8 @@ class WordConverter implements WordConverterInterface
     {
         $fileId = $this->client->uploadFile($filePath)['FileId'];
 
-        if (!preg_match('/\.(doc|docx|docm)$/', $filePath, $matches)) {
-            throw new ValidationException('Word document must have doc, docx or docm extension');
+        if (!preg_match('/\.(doc|docx)$/', $filePath, $matches)) {
+            throw new ValidationException('Word document must have doc or docx extension');
         }
 
         $inputExtension = $matches[1];
