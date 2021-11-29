@@ -2,6 +2,7 @@
 namespace Tests;
 
 use WebmergeOfficeTools\Configuration;
+use WebmergeOfficeTools\ExcelConverter;
 use WebmergeOfficeTools\Implementations\ConvertApiDotCom;
 use WebmergeOfficeTools\Implementations\LegacyWindows;
 use WebmergeOfficeTools\LegacyFormatConverter;
@@ -35,6 +36,15 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return [
             [new ConvertApiDotCom\WordConverter($this->convertApiClient())],
             [new LegacyWindows\WordConverter($this->legacyWindowsGeneralConverter())],
+        ];
+    }
+
+    /** @return ExcelConverter[] **/
+    public function excelConverterImplementations(): array
+    {
+        return [
+            [new ConvertApiDotCom\ExcelConverter($this->convertApiClient())],
+            [new LegacyWindows\ExcelConverter($this->legacyWindowsGeneralConverter())],
         ];
     }
 
