@@ -58,6 +58,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return $folder . '/' . $fileName;
     }
 
+    protected function benchmarkFilePath(string $fileName): string
+    {
+        return dirname(__FILE__) . '/benchmark_files/' . $fileName;
+    }
+
     protected function assertZip(string $path): ZipArchive
     {
         $this->assertFileExists($path);
@@ -84,6 +89,41 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected function assertFileIsAPdf(string $path): void
     {
         $this->assertEquals('application/pdf', mime_content_type($path));
+    }
+
+    protected function assertImagesSimilar(string $fileA, string $fileB): void
+    {
+        exec("idiff -fail 0.004 -failpercent 20 $fileA $fileB", $output);
+
+        if ($output[1] === 'PASS') {
+            $this->addToAssertionCount(1);
+        } else {
+            assert(preg_match("/ Mean error = /", $output[1]));
+            $meanError = (float) str_replace(" Mean error = ", '', $output[1]);
+            $stats = [];
+            $stats['meanError'] = $meanError;
+
+            assert(preg_match("/ pixels /", $output[6]));
+            $matches = [];
+            preg_match("/([\d\.]+)%/", $output[6], $matches);
+            $percentFailed = (float) $matches[1];
+            $stats['percentPixelsFail'] = $percentFailed;
+            $stats['status'] = $output[7];
+
+            $this->fail("Images do not match: a:$fileA, b:$fileB - " . json_encode($stats, JSON_PRETTY_PRINT));
+        }
+    }
+
+    protected function toPng(string $pdfPath): string
+    {
+        $hash = sha1_file($pdfPath);
+        $pngPath = dirname(__FILE__) . '/output_files/pngs/' . $hash . '.png';
+        if (!file_exists($pngPath)) {
+            $command = "convert -quality 100 -density 400 -resize 25% -flatten {$pdfPath}[0] {$pngPath}";
+            exec($command);
+        }
+
+        return $pngPath;
     }
 
     protected function shouldRegenerate(string $path): bool

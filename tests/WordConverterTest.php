@@ -16,5 +16,11 @@ class WordConverterTest extends TestCase
         }
 
         $this->assertFileIsAPdf($outputPath);
+
+        $png = $this->toPng($outputPath);
+
+        $benchmark = $this->toPng($this->benchmarkFilePath('basic.docx.pdf'));
+
+        $this->assertImagesSimilar($benchmark, $png);
     }
 }
