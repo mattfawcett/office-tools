@@ -4,7 +4,7 @@ namespace WebmergeOfficeTools;
 interface ExcelConverter
 {
     /**
-     * Convert either a .xlsx file into a pdf.
+     * Convert either a .xlsx or .xls file into a pdf.
      *
      * Should recaululate formulas where necessary
      **/
