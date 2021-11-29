@@ -23,6 +23,7 @@ class ExcelConverter implements ExcelConverterInterface
 
         $conversionResponse = $this->client->post("/convert/xlsx/to/pdf", [
             'File' => $fileId,
+            'PageSize' => 'letter',
         ]);
 
         file_put_contents($outupFilePath, base64_decode($conversionResponse['Files'][0]['FileData']));
