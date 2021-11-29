@@ -8,6 +8,7 @@ use WebmergeOfficeTools\Implementations\LegacyWindows;
 use WebmergeOfficeTools\LegacyFormatConverter;
 use WebmergeOfficeTools\PowerpointConverter;
 use WebmergeOfficeTools\WordConverter;
+use WebmergeOfficeTools\WordProtecter;
 use ZipArchive;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
@@ -33,6 +34,15 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     /** @return WordConverter[] **/
     public function wordConverterImplementations(): array
+    {
+        return [
+            [new ConvertApiDotCom\WordConverter($this->convertApiClient())],
+            [new LegacyWindows\WordConverter($this->legacyWindowsGeneralConverter())],
+        ];
+    }
+
+    /** @return WordProtecter[] **/
+    public function wordProtecterImplementations(): array
     {
         return [
             [new ConvertApiDotCom\WordConverter($this->convertApiClient())],

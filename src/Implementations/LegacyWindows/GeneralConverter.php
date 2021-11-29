@@ -17,7 +17,7 @@ class GeneralConverter
         $this->guzzle = $guzzle;
     }
 
-    public function convert(string $filePath, string $outputFilePath): void
+    public function convert(string $filePath, string $outputFilePath, array $qsParams = []): void
     {
         $fileContents = file_get_contents($filePath);
 
@@ -28,6 +28,7 @@ class GeneralConverter
                     'file_contents' => base64_encode($fileContents),
                     'output_format' => $this->fileExtension($outputFilePath),
                 ],
+                'query' => $qsParams,
                 'proxy' => Configuration::$proxy,
                 'verify' => Configuration::$verifyTls,
             ]);
