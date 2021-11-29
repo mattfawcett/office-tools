@@ -2,10 +2,10 @@
 namespace WebmergeOfficeTools\Implementations\ConvertApiDotCom;
 
 use WebmergeOfficeTools\Exceptions\ValidationException;
-use WebmergeOfficeTools\WordConverter as WordConverterInterface;
+use WebmergeOfficeTools\WordConverter;
 use WebmergeOfficeTools\WordProtecter;
 
-class WordConverter implements WordConverterInterface, WordProtecter
+class WordTools implements WordConverter, WordProtecter
 {
     private HttpClient $client;
 

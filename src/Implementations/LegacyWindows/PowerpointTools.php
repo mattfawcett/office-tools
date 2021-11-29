@@ -1,10 +1,9 @@
 <?php
 namespace WebmergeOfficeTools\Implementations\LegacyWindows;
 
-use WebmergeOfficeTools\WordConverter as WordConverterInterface;
-use WebmergeOfficeTools\WordProtecter;
+use WebmergeOfficeTools\PowerpointConverter;
 
-class WordConverter implements WordConverterInterface, WordProtecter
+class PowerpointTools implements PowerpointConverter
 {
     private GeneralConverter $generalConverter;
 
@@ -17,9 +16,5 @@ class WordConverter implements WordConverterInterface, WordProtecter
     {
         $this->generalConverter->convert($filePath, $outupFilePath);
     }
-
-    public function passwordProtect(string $filePath, string $outupFilePath, string $password): void
-    {
-        $this->generalConverter->convert($filePath, $outupFilePath, ['password' => $password]);
-    }
 }
+

@@ -1,9 +1,10 @@
 <?php
 namespace WebmergeOfficeTools\Implementations\LegacyWindows;
 
-use WebmergeOfficeTools\ExcelConverter as ExcelConverterInterface;
+use WebmergeOfficeTools\WordConverter;
+use WebmergeOfficeTools\WordProtecter;
 
-class ExcelConverter implements ExcelConverterInterface
+class WordTools implements WordConverter, WordProtecter
 {
     private GeneralConverter $generalConverter;
 
@@ -16,5 +17,9 @@ class ExcelConverter implements ExcelConverterInterface
     {
         $this->generalConverter->convert($filePath, $outupFilePath);
     }
-}
 
+    public function passwordProtect(string $filePath, string $outupFilePath, string $password): void
+    {
+        $this->generalConverter->convert($filePath, $outupFilePath, ['password' => $password]);
+    }
+}

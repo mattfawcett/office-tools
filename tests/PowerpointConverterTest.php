@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests;
 
 use WebmergeOfficeTools\PowerpointConverter;
@@ -24,4 +25,3 @@ class PowerpointConverterTest extends TestCase
         $this->assertImagesSimilar($benchmark, $png);
     }
 }
-

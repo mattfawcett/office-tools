@@ -1,9 +1,9 @@
 <?php
 namespace WebmergeOfficeTools\Implementations\LegacyWindows;
 
-use WebmergeOfficeTools\PowerpointConverter as PowerpointConverterInterface;
+use WebmergeOfficeTools\ExcelConverter;
 
-class PowerpointConverter implements PowerpointConverterInterface
+class ExcelTools implements ExcelConverter
 {
     private GeneralConverter $generalConverter;
 

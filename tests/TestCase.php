@@ -36,8 +36,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function wordConverterImplementations(): array
     {
         return [
-            [new ConvertApiDotCom\WordConverter($this->convertApiClient())],
-            [new LegacyWindows\WordConverter($this->legacyWindowsGeneralConverter())],
+            [new ConvertApiDotCom\WordTools($this->convertApiClient())],
+            [new LegacyWindows\WordTools($this->legacyWindowsGeneralConverter())],
         ];
     }
 
@@ -45,8 +45,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function wordProtecterImplementations(): array
     {
         return [
-            [new ConvertApiDotCom\WordConverter($this->convertApiClient())],
-            [new LegacyWindows\WordConverter($this->legacyWindowsGeneralConverter())],
+            [new ConvertApiDotCom\WordTools($this->convertApiClient())],
+            [new LegacyWindows\WordTools($this->legacyWindowsGeneralConverter())],
         ];
     }
 
@@ -54,8 +54,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function excelConverterImplementations(): array
     {
         return [
-            [new ConvertApiDotCom\ExcelConverter($this->convertApiClient())],
-            [new LegacyWindows\ExcelConverter($this->legacyWindowsGeneralConverter())],
+            [new ConvertApiDotCom\ExcelTools($this->convertApiClient())],
+            [new LegacyWindows\ExcelTools($this->legacyWindowsGeneralConverter())],
         ];
     }
 
@@ -63,8 +63,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function powerpointConverterImplementations(): array
     {
         return [
-            [new ConvertApiDotCom\PowerpointConverter($this->convertApiClient())],
-            [new LegacyWindows\PowerpointConverter($this->legacyWindowsGeneralConverter())],
+            [new ConvertApiDotCom\PowerpointTools($this->convertApiClient())],
+            [new LegacyWindows\PowerpointTools($this->legacyWindowsGeneralConverter())],
         ];
     }
 

@@ -2,9 +2,9 @@
 namespace WebmergeOfficeTools\Implementations\ConvertApiDotCom;
 
 use WebmergeOfficeTools\Exceptions\ValidationException;
-use WebmergeOfficeTools\ExcelConverter as ExcelConverterInterface;
+use WebmergeOfficeTools\PowerpointConverter;
 
-class ExcelConverter implements ExcelConverterInterface
+class PowerpointTools implements PowerpointConverter
 {
     private HttpClient $client;
 
@@ -15,16 +15,14 @@ class ExcelConverter implements ExcelConverterInterface
 
     public function convertToPdf(string $filePath, string $outupFilePath): void
     {
-        if (!preg_match('/\.(xlsx|xls)$/', $filePath, $matches)) {
-            throw new ValidationException('Excel document must have xlsx extension');
+        $fileId = $this->client->uploadFile($filePath)['FileId'];
+
+        if (!preg_match('/\.pptx$/', $filePath, $matches)) {
+            throw new ValidationException('Powerpoint document must have pptx extension');
         }
 
-        $fileId = $this->client->uploadFile($filePath)['FileId'];
-        $inputExtension = $matches[1];
-
-        $conversionResponse = $this->client->post("/convert/$inputExtension/to/pdf", [
+        $conversionResponse = $this->client->post("/convert/pptx/to/pdf", [
             'File' => $fileId,
-            'PageSize' => 'letter',
         ]);
 
         file_put_contents($outupFilePath, base64_decode($conversionResponse['Files'][0]['FileData']));
