@@ -5,6 +5,7 @@ use WebmergeOfficeTools\Configuration;
 use WebmergeOfficeTools\Implementations\ConvertApiDotCom;
 use WebmergeOfficeTools\Implementations\LegacyWindows;
 use WebmergeOfficeTools\LegacyFormatConverter;
+use WebmergeOfficeTools\WordConverter;
 use ZipArchive;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
@@ -25,6 +26,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return [
             [new ConvertApiDotCom\LegacyFormatConverter($this->convertApiClient())],
             [new LegacyWindows\LegacyFormatConverter($this->legacyWindowsGeneralConverter())],
+        ];
+    }
+
+    /** @return WordConverter[] **/
+    public function wordConverterImplementations(): array
+    {
+        return [
+            [new LegacyWindows\WordConverter($this->legacyWindowsGeneralConverter())],
         ];
     }
 
@@ -70,6 +79,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $this->fail("Zip did not have file named $fileName");
         return null;
+    }
+
+    protected function assertFileIsAPdf(string $path): void
+    {
+        $this->assertEquals('application/pdf', mime_content_type($path));
     }
 
     protected function shouldRegenerate(string $path): bool
