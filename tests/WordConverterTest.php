@@ -23,4 +23,25 @@ class WordConverterTest extends TestCase
 
         $this->assertImagesSimilar($benchmark, $png);
     }
+
+    /** @dataProvider wordConverterImplementations **/
+    public function testShouldHaveCorrectTableOfContentsEvenIfNotUpdatedInWordDoc(WordConverter $converter)
+    {
+        $inputPath = $this->inputFilePath('toc-not-updated.docx');
+        $outputPath = $this->outputFilePath($converter, 'toc-not-updated.docx.pdf');
+
+        if ($this->shouldRegenerate($outputPath)) {
+            $converter->convertToPdf($inputPath, $outputPath);
+        }
+
+        $this->assertFileIsAPdf($outputPath);
+
+        $png = $this->toPng($outputPath);
+
+        $benchmark = $this->toPng($this->benchmarkFilePath('toc-not-updated.docx.pdf'));
+
+        $this->assertImagesSimilar($benchmark, $png);
+    }
+
+
 }

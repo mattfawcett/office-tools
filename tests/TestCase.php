@@ -111,7 +111,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $stats['percentPixelsFail'] = $percentFailed;
             $stats['status'] = $output[7];
 
-            $this->fail("Images do not match: a:$fileA, b:$fileB - " . json_encode($stats, JSON_PRETTY_PRINT));
+            $text = "Images do not match: a:$fileA, b:$fileB - " . json_encode($stats, JSON_PRETTY_PRINT);
+            if ($stats['status'] === 'WARNING') {
+                $this->addWarning($text);
+            } else {
+                $this->fail($text);
+            }
         }
     }
 
