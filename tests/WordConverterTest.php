@@ -41,6 +41,8 @@ class WordConverterTest extends TestCase
         $benchmark = $this->toPng($this->benchmarkFilePath('toc-not-updated.docx.pdf'));
 
         $this->assertImagesSimilar($benchmark, $png);
+
+        echo $this->ocr($png);
     }
 
 

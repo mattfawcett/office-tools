@@ -145,6 +145,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return true;
     }
 
+    protected function ocr(string $path): string
+    {
+        exec("tesseract $path - recital", $output);
+
+        return implode("\n", $output);
+    }
+
     private function convertApiClient(): ConvertApiDotCom\HttpClient
     {
         return (new ConvertApiDotCom\HttpClient(new \GuzzleHttp\Client))->setSecret('POOUE3or0L5CvOAP');
