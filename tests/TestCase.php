@@ -3,8 +3,8 @@ namespace Tests;
 
 use WebmergeOfficeTools\Configuration;
 use WebmergeOfficeTools\ExcelConverter;
-use WebmergeOfficeTools\Implementations\ConvertApiDotCom;
-use WebmergeOfficeTools\Implementations\LegacyWindows;
+use WebmergeOfficeTools\Factory;
+use WebmergeOfficeTools\HtmlConverter;
 use WebmergeOfficeTools\LegacyFormatConverter;
 use WebmergeOfficeTools\PowerpointConverter;
 use WebmergeOfficeTools\WordConverter;
@@ -27,8 +27,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function legacyFormatConverterImplementations(): array
     {
         return [
-            [new ConvertApiDotCom\LegacyFormatConverter($this->convertApiClient())],
-            [new LegacyWindows\LegacyFormatConverter($this->legacyWindowsGeneralConverter())],
+            [Factory::legacyFormatConverter(Factory::SYSTEM_LEGACY_WINDOWS)],
+            [Factory::legacyFormatConverter(Factory::SYSTEM_CONVERTAPI_DOT_COM)],
         ];
     }
 
@@ -36,8 +36,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function wordConverterImplementations(): array
     {
         return [
-            [new ConvertApiDotCom\WordTools($this->convertApiClient())],
-            [new LegacyWindows\WordTools($this->legacyWindowsGeneralConverter())],
+            [Factory::wordConverter(Factory::SYSTEM_LEGACY_WINDOWS)],
+            [Factory::wordConverter(Factory::SYSTEM_CONVERTAPI_DOT_COM)],
         ];
     }
 
@@ -45,8 +45,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function wordProtecterImplementations(): array
     {
         return [
-            [new ConvertApiDotCom\WordTools($this->convertApiClient())],
-            [new LegacyWindows\WordTools($this->legacyWindowsGeneralConverter())],
+            [Factory::wordProtecter(Factory::SYSTEM_LEGACY_WINDOWS)],
+            [Factory::wordProtecter(Factory::SYSTEM_CONVERTAPI_DOT_COM)],
         ];
     }
 
@@ -54,8 +54,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function excelConverterImplementations(): array
     {
         return [
-            [new ConvertApiDotCom\ExcelTools($this->convertApiClient())],
-            [new LegacyWindows\ExcelTools($this->legacyWindowsGeneralConverter())],
+            [Factory::excelConverter(Factory::SYSTEM_LEGACY_WINDOWS)],
+            [Factory::excelConverter(Factory::SYSTEM_CONVERTAPI_DOT_COM)],
         ];
     }
 
@@ -63,17 +63,17 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function powerpointConverterImplementations(): array
     {
         return [
-            [new ConvertApiDotCom\PowerpointTools($this->convertApiClient())],
-            [new LegacyWindows\PowerpointTools($this->legacyWindowsGeneralConverter())],
+            [Factory::powerpointConverter(Factory::SYSTEM_LEGACY_WINDOWS)],
+            [Factory::powerpointConverter(Factory::SYSTEM_CONVERTAPI_DOT_COM)],
         ];
     }
 
-    /** @return PowerpointConverter[] **/
+    /** @return HtmlConverter[] **/
     public function htmlConverterImplementations(): array
     {
         return [
-            [new ConvertApiDotCom\HtmlTools($this->convertApiClient())],
-            [new LegacyWindows\HtmlTools($this->legacyWindowsGeneralConverter())],
+            [Factory::htmlConverter(Factory::SYSTEM_LEGACY_WINDOWS)],
+            [Factory::htmlConverter(Factory::SYSTEM_CONVERTAPI_DOT_COM)],
         ];
     }
 
@@ -182,15 +182,5 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         }
 
         return true;
-    }
-
-    private function convertApiClient(): ConvertApiDotCom\HttpClient
-    {
-        return (new ConvertApiDotCom\HttpClient(new \GuzzleHttp\Client))->setSecret('POOUE3or0L5CvOAP');
-    }
-
-    private function legacyWindowsGeneralConverter(): LegacyWindows\GeneralConverter
-    {
-        return (new LegacyWindows\GeneralConverter(new \GuzzleHttp\Client));
     }
 }
