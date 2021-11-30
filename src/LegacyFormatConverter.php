@@ -10,4 +10,6 @@ interface LegacyFormatConverter
     ];
 
     public function convertLegacyFormat(string $filePath, string $outputFilePath, string $legacyFormat): void;
+
+    public function implementationName(): string;
 }

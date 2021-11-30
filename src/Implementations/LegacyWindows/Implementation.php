@@ -24,6 +24,11 @@ class Implementation implements WordConverter, WordProtecter, ExcelConverter, Po
         $this->guzzle = $guzzle;
     }
 
+    public function implementationName(): string
+    {
+        return 'legacy_windows';
+    }
+
     public function convertWordToPdf(string $filePath, string $outputFilePath): void
     {
         $this->convert($filePath, $outputFilePath);

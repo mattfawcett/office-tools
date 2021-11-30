@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests;
 
 use WebmergeOfficeTools\Configuration;
@@ -15,7 +16,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     public static function setUpBeforeClass(): void
     {
-        if(getenv('PROXY_TO_CHARLES')) {
+        if (getenv('PROXY_TO_CHARLES')) {
             Configuration::skipVerifyTls();
             Configuration::setProxy('localhost:8888');
         }
@@ -84,12 +85,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function outputFilePath($class, $fileName): string
     {
-        $className = get_class($class);
-        if (!preg_match('/WebmergeOfficeTools\\\\Implementations/', $className)) {
-            $this->fail('Invalid class ' . $className);
-        }
-
-        $implementationName = explode('\\', $className)[2];
+        $implementationName = $class->implementationName();
 
         $folder = dirname(__FILE__) . '/output_files/' . $implementationName;
         if (!is_dir($folder)) {
@@ -114,7 +110,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function assertZipHasFileNamed(ZipArchive $zip, string $fileName): ?int
     {
-        for ($i=0; $i < $zip->numFiles; $i++) {
+        for ($i = 0; $i < $zip->numFiles; $i++) {
             $stats = $zip->statIndex($i);
             if ($stats['name'] === $fileName) {
                 $this->addToAssertionCount(1);

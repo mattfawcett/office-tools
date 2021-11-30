@@ -18,6 +18,11 @@ class Implementation implements WordConverter, WordProtecter, ExcelConverter, Po
         $this->client = $client;
     }
 
+    public function implementationName(): string
+    {
+        return 'convert_api_dot_com';
+    }
+
     public function convertWordToPdf(string $filePath, string $outputFilePath): void
     {
         if (!preg_match('/\.(doc|docx)$/', $filePath, $matches)) {

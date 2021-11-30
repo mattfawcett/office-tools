@@ -8,4 +8,6 @@ interface WordProtecter
      * if supplied with the password
      **/
     public function passwordProtectWordFile(string $filePath, string $outputFilePath, string $password): void;
+
+    public function implementationName(): string;
 }

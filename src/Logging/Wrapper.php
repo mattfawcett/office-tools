@@ -1,25 +1,34 @@
 <?php
-namespace WebmergeOfficeTools\Logging\Wrappers;
+namespace WebmergeOfficeTools\Logging;
 
+use RuntimeException;
 use WebmergeOfficeTools\Configuration;
 use WebmergeOfficeTools\WordConverter;
 
-class WordConverterWrapper implements WordConverter
+class Wrapper implements WordConverter
 {
-    private WordConverter $baseImplementation;
+    private $baseImplementation;
 
-    private function __construct(WordConverter $baseImplementation)
+    private function __construct($baseImplementation)
     {
         $this->baseImplementation = $baseImplementation;
     }
 
-    public static function wrap(WordConverter $wordConverter)
+    public static function wrap($wordConverter)
     {
         return new self($wordConverter);
     }
 
+    public function implementationName(): string
+    {
+        return $this->baseImplementation->implementationName();
+    }
+
     public function convertWordToPdf(string $filePath, string $outputFilePath): void
     {
+        $this->assertBaseImplementationIs(WordConverter::class);
+        assert($this->baseImplementation instanceof WordConverter);
+
         try {
             $this->baseImplementation->convertWordToPdf($filePath, $outputFilePath);
             Configuration::logger()->info('Converted word file to pdf', [
@@ -32,6 +41,13 @@ class WordConverterWrapper implements WordConverter
                 'outputFilePath' => $outputFilePath,
             ]);
             throw $e;
+        }
+    }
+
+    private function assertBaseImplementationIs($interface)
+    {
+        if (!($this->baseImplementation instanceof $interface)) {
+            throw new RuntimeException('Log wrapper expected base implementation of ' . $interface);
         }
     }
 }

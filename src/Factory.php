@@ -4,6 +4,7 @@ namespace WebmergeOfficeTools;
 use GuzzleHttp;
 use WebmergeOfficeTools\Implementations\ConvertApiDotCom;
 use WebmergeOfficeTools\Implementations\LegacyWindows;
+use WebmergeOfficeTools\Logging\Wrapper;
 
 class Factory
 {
@@ -15,9 +16,9 @@ class Factory
     public static function wordConverter(string $system = null): WordConverter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
-            return self::legacyWindowsImplementation();
+            return Wrapper::wrap(self::legacyWindowsImplementation());
         } else {
-            return self::legacyConvertApiDotComImplementation();
+            return Wrapper::wrap(self::legacyConvertApiDotComImplementation());
         }
     }
 
