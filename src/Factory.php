@@ -78,8 +78,7 @@ class Factory
     private static function legacyWindowsImplementation(): LegacyWindows\Implementation
     {
         return self::cacheOrBuild(LegacyWindows\Implementation::class, function() {
-            $converter = (new LegacyWindows\GeneralConverter(new GuzzleHttp\Client));
-            return new LegacyWindows\Implementation($converter);
+            return new LegacyWindows\Implementation(new GuzzleHttp\Client);
         });
     }
 

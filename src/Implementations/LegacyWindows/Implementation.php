@@ -1,7 +1,11 @@
 <?php
 namespace WebmergeOfficeTools\Implementations\LegacyWindows;
 
+use GuzzleHttp;
+use GuzzleHttp\Exception\GuzzleException;
+use WebmergeOfficeTools\Configuration;
 use WebmergeOfficeTools\ExcelConverter;
+use WebmergeOfficeTools\Exceptions;
 use WebmergeOfficeTools\Exceptions\ValidationException;
 use WebmergeOfficeTools\HtmlConverter;
 use WebmergeOfficeTools\LegacyFormatConverter;
@@ -11,36 +15,38 @@ use WebmergeOfficeTools\WordProtecter;
 
 class Implementation implements WordConverter, WordProtecter, ExcelConverter, PowerpointConverter, HtmlConverter, LegacyFormatConverter
 {
-    private GeneralConverter $generalConverter;
+    private const ENDPOINT = 'https://windows.webmerge.me/convert';
 
-    public function __construct(GeneralConverter $client)
+    private GuzzleHttp\ClientInterface $guzzle;
+
+    public function __construct(GuzzleHttp\ClientInterface $guzzle)
     {
-        $this->generalConverter = $client;
+        $this->guzzle = $guzzle;
     }
 
     public function convertWordToPdf(string $filePath, string $outputFilePath): void
     {
-        $this->generalConverter->convert($filePath, $outputFilePath);
+        $this->convert($filePath, $outputFilePath);
     }
 
     public function passwordProtectWordFile(string $filePath, string $outputFilePath, string $password): void
     {
-        $this->generalConverter->convert($filePath, $outputFilePath, ['password' => $password]);
+        $this->convert($filePath, $outputFilePath, ['password' => $password]);
     }
 
     public function convertToPdf(string $filePath, string $outputFilePath): void
     {
-        $this->generalConverter->convert($filePath, $outputFilePath);
+        $this->convert($filePath, $outputFilePath);
     }
 
     public function convertPowerpointToPdf(string $filePath, string $outputFilePath): void
     {
-        $this->generalConverter->convert($filePath, $outputFilePath);
+        $this->convert($filePath, $outputFilePath);
     }
 
     public function convertHtmlToWord(string $filePath, string $outputFilePath): void
     {
-        $this->generalConverter->convert($filePath, $outputFilePath);
+        $this->convert($filePath, $outputFilePath);
     }
 
     public function convertLegacyFormat(string $filePath, string $outputFilePath, string $legacyFormat): void
@@ -51,5 +57,38 @@ class Implementation implements WordConverter, WordProtecter, ExcelConverter, Po
         }
 
         $this->generalConverter->convert($filePath, $outputFilePath);
+    }
+
+    private function convert(string $filePath, string $outputFilePath, array $qsParams = []): void
+    {
+        $fileContents = file_get_contents($filePath);
+
+        try {
+            $response = $this->guzzle->request('POST', self::ENDPOINT, [
+                'form_params' => [
+                    'file_format' => $this->fileExtension($filePath),
+                    'file_contents' => base64_encode($fileContents),
+                    'output_format' => $this->fileExtension($outputFilePath),
+                ],
+                'query' => $qsParams,
+                'proxy' => Configuration::$proxy,
+                'verify' => Configuration::$verifyTls,
+            ]);
+        } catch(GuzzleException $e) {
+            throw new Exceptions\ApiException('Error when uploading to legacy windows API', 0, $e);
+        }
+
+        file_put_contents($outputFilePath, $response->getBody());
+    }
+
+    private function fileExtension(string $path): string
+    {
+        $pathSegments = explode('/', $path);
+        $fileName = end($pathSegments);
+
+        $fileParts = explode('.', $fileName);
+        $extension = end($fileParts);
+
+        return $extension;
     }
 }
