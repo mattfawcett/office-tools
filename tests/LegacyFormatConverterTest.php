@@ -30,7 +30,7 @@ class LegacyFormatConverterTest extends TestCase
     /** @dataProvider legacyFormatConverterImplementations **/
     public function testConvertXls(LegacyFormatConverter $converter)
     {
-        if ($converter instanceof \WebmergeOfficeTools\Implementations\ConvertApiDotCom\LegacyFormatConverter) {
+        if ($converter instanceof \WebmergeOfficeTools\Implementations\ConvertApiDotCom\Implementation) {
             $this->markTestSkipped('Convert API does not have xls to xlsx conversion yet');
         }
 
@@ -48,10 +48,10 @@ class LegacyFormatConverterTest extends TestCase
     /** @dataProvider legacyFormatConverterImplementations **/
     public function testConvertPpt(LegacyFormatConverter $converter)
     {
-        if ($converter instanceof \WebmergeOfficeTools\Implementations\ConvertApiDotCom\LegacyFormatConverter) {
+        if ($converter instanceof \WebmergeOfficeTools\Implementations\ConvertApiDotCom\Implementation) {
             $this->markTestSkipped('Convert API does not have ppt to pptx conversion yet');
         }
-        if ($converter instanceof \WebmergeOfficeTools\Implementations\LegacyWindows\LegacyFormatConverter) {
+        if ($converter instanceof \WebmergeOfficeTools\Implementations\LegacyWindows\Implementation) {
             $this->markTestSkipped('ppt to pptx conversion on legacy windows does not actually work');
         }
 

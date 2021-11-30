@@ -15,93 +15,55 @@ class Factory
     public static function wordConverter(string $system = null): WordConverter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
-            return self::cacheOrBuild(LegacyWindows\WordTools::class, function() {
-                return new LegacyWindows\WordTools(self::legacyWindowsGeneralConverter());
-            });
+            return self::legacyWindowsImplementation();
         } else {
-            return self::cacheOrBuild(ConvertApiDotCom\WordTools::class, function() {
-                return new ConvertApiDotCom\WordTools(self::convertApiClient());
-            });
+            return self::legacyConvertApiDotComImplementation();
         }
     }
 
     public static function excelConverter(string $system = null): ExcelConverter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
-            return self::cacheOrBuild(LegacyWindows\ExcelTools::class, function() {
-                return new LegacyWindows\ExcelTools(self::legacyWindowsGeneralConverter());
-            });
+            return self::legacyWindowsImplementation();
         } else {
-            return self::cacheOrBuild(ConvertApiDotCom\ExcelTools::class, function() {
-                return new ConvertApiDotCom\ExcelTools(self::convertApiClient());
-            });
+            return self::legacyConvertApiDotComImplementation();
         }
     }
 
     public static function powerpointConverter(string $system = null): PowerpointConverter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
-            return self::cacheOrBuild(LegacyWindows\PowerpointTools::class, function() {
-                return new LegacyWindows\PowerpointTools(self::legacyWindowsGeneralConverter());
-            });
+            return self::legacyWindowsImplementation();
         } else {
-            return self::cacheOrBuild(ConvertApiDotCom\PowerpointTools::class, function() {
-                return new ConvertApiDotCom\PowerpointTools(self::convertApiClient());
-            });
+            return self::legacyConvertApiDotComImplementation();
         }
     }
 
     public static function htmlConverter(string $system = null): HtmlConverter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
-            return self::cacheOrBuild(LegacyWindows\HtmlTools::class, function() {
-                return new LegacyWindows\HtmlTools(self::legacyWindowsGeneralConverter());
-            });
+            return self::legacyWindowsImplementation();
         } else {
-            return self::cacheOrBuild(ConvertApiDotCom\HtmlTools::class, function() {
-                return new ConvertApiDotCom\HtmlTools(self::convertApiClient());
-            });
+            return self::legacyConvertApiDotComImplementation();
         }
     }
 
     public static function wordProtecter(string $system = null): WordProtecter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
-            return self::cacheOrBuild(LegacyWindows\Word::class, function() {
-                return new LegacyWindows\WordTools(self::legacyWindowsGeneralConverter());
-            });
+            return self::legacyWindowsImplementation();
         } else {
-            return self::cacheOrBuild(ConvertApiDotCom\WordTools::class, function() {
-                return new ConvertApiDotCom\WordTools(self::convertApiClient());
-            });
+            return self::legacyConvertApiDotComImplementation();
         }
     }
 
     public static function legacyFormatConverter(string $system = null): LegacyFormatConverter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
-            return self::cacheOrBuild(LegacyWindows\LegacyFormatConverter::class, function() {
-                return new LegacyWindows\LegacyFormatConverter(self::legacyWindowsGeneralConverter());
-            });
+            return self::legacyWindowsImplementation();
         } else {
-            return self::cacheOrBuild(ConvertApiDotCom\LegacyFormatConverter::class, function() {
-                return new ConvertApiDotCom\LegacyFormatConverter(self::convertApiClient());
-            });
+            return self::legacyConvertApiDotComImplementation();
         }
-    }
-
-    private static function convertApiClient(): ConvertApiDotCom\HttpClient
-    {
-        return self::cacheOrBuild(ConvertApiDotCom\HttpClient::class, function() {
-            return (new ConvertApiDotCom\HttpClient(new GuzzleHttp\Client))->setSecret('POOUE3or0L5CvOAP');
-        });
-    }
-
-    private static function legacyWindowsGeneralConverter(): LegacyWindows\GeneralConverter
-    {
-        return self::cacheOrBuild(LegacyWindows\GeneralConverter::class, function() {
-            return (new LegacyWindows\GeneralConverter(new GuzzleHttp\Client));
-        });
     }
 
     private static function cacheOrBuild(string $className, $callable)
@@ -111,5 +73,21 @@ class Factory
         }
 
         return self::$cachedClasses[$className];
+    }
+
+    private static function legacyWindowsImplementation(): LegacyWindows\Implementation
+    {
+        return self::cacheOrBuild(LegacyWindows\Implementation::class, function() {
+            $converter = (new LegacyWindows\GeneralConverter(new GuzzleHttp\Client));
+            return new LegacyWindows\Implementation($converter);
+        });
+    }
+
+    private static function legacyConvertApiDotComImplementation(): ConvertApiDotCom\Implementation
+    {
+        return self::cacheOrBuild(ConvertApiDotCom\Implementation::class, function() {
+            $http = (new ConvertApiDotCom\HttpClient(new GuzzleHttp\Client))->setSecret('POOUE3or0L5CvOAP');
+            return new ConvertApiDotCom\Implementation($http);
+        });
     }
 }
