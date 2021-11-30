@@ -68,6 +68,15 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /** @return PowerpointConverter[] **/
+    public function htmlConverterImplementations(): array
+    {
+        return [
+            [new ConvertApiDotCom\HtmlTools($this->convertApiClient())],
+            [new LegacyWindows\HtmlTools($this->legacyWindowsGeneralConverter())],
+        ];
+    }
+
     protected function inputFilePath(string $fileName): string
     {
         return dirname(__FILE__) . '/input_files/' . $fileName;
