@@ -13,13 +13,13 @@ class LegacyFormatConverter implements LegacyFormatConverterInterface
         $this->generalConverter = $client;
     }
 
-    public function convert(string $filePath, string $outupFilePath, string $legacyFormat): void
+    public function convert(string $filePath, string $outputFilePath, string $legacyFormat): void
     {
         $newFormat = LegacyFormatConverterInterface::LEGACY_FORMATS[$legacyFormat] ?? null;
         if (!$newFormat) {
             throw new ValidationException('Invalid legacy format ' . $legacyFormat);
         }
 
-        $this->generalConverter->convert($filePath, $outupFilePath);
+        $this->generalConverter->convert($filePath, $outputFilePath);
     }
 }

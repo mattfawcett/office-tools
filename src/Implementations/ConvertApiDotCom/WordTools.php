@@ -14,7 +14,7 @@ class WordTools implements WordConverter, WordProtecter
         $this->client = $client;
     }
 
-    public function convertToPdf(string $filePath, string $outupFilePath): void
+    public function convertToPdf(string $filePath, string $outputFilePath): void
     {
         if (!preg_match('/\.(doc|docx)$/', $filePath, $matches)) {
             throw new ValidationException('Word document must have doc or docx extension');
@@ -28,10 +28,10 @@ class WordTools implements WordConverter, WordProtecter
             'File' => $fileId,
         ]);
 
-        file_put_contents($outupFilePath, base64_decode($conversionResponse['Files'][0]['FileData']));
+        file_put_contents($outputFilePath, base64_decode($conversionResponse['Files'][0]['FileData']));
     }
 
-    public function passwordProtect(string $filePath, string $outupFilePath, string $password): void
+    public function passwordProtect(string $filePath, string $outputFilePath, string $password): void
     {
         if (!preg_match('/\.docx$/', $filePath, $matches)) {
             throw new ValidationException('Word document must have docx extension');
@@ -44,7 +44,7 @@ class WordTools implements WordConverter, WordProtecter
             'EncryptPassword' => $password,
         ]);
 
-        file_put_contents($outupFilePath, base64_decode($conversionResponse['Files'][0]['FileData']));
+        file_put_contents($outputFilePath, base64_decode($conversionResponse['Files'][0]['FileData']));
     }
 }
 

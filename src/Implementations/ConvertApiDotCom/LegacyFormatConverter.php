@@ -13,7 +13,7 @@ class LegacyFormatConverter implements LegacyFormatConverterInterface
         $this->client = $client;
     }
 
-    public function convert(string $filePath, string $outupFilePath, string $legacyFormat): void
+    public function convert(string $filePath, string $outputFilePath, string $legacyFormat): void
     {
         $newFormat = LegacyFormatConverterInterface::LEGACY_FORMATS[$legacyFormat] ?? null;
         if (!$newFormat) {
@@ -27,6 +27,6 @@ class LegacyFormatConverter implements LegacyFormatConverterInterface
             'File' => $fileId,
         ]);
 
-        file_put_contents($outupFilePath, base64_decode($conversionResponse['Files'][0]['FileData']));
+        file_put_contents($outputFilePath, base64_decode($conversionResponse['Files'][0]['FileData']));
     }
 }

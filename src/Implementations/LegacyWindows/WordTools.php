@@ -13,13 +13,13 @@ class WordTools implements WordConverter, WordProtecter
         $this->generalConverter = $client;
     }
 
-    public function convertToPdf(string $filePath, string $outupFilePath): void
+    public function convertToPdf(string $filePath, string $outputFilePath): void
     {
-        $this->generalConverter->convert($filePath, $outupFilePath);
+        $this->generalConverter->convert($filePath, $outputFilePath);
     }
 
-    public function passwordProtect(string $filePath, string $outupFilePath, string $password): void
+    public function passwordProtect(string $filePath, string $outputFilePath, string $password): void
     {
-        $this->generalConverter->convert($filePath, $outupFilePath, ['password' => $password]);
+        $this->generalConverter->convert($filePath, $outputFilePath, ['password' => $password]);
     }
 }

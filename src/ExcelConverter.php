@@ -8,6 +8,6 @@ interface ExcelConverter
      *
      * Should recaululate formulas where necessary
      **/
-    public function convertToPdf(string $filePath, string $outupFilePath): void;
+    public function convertToPdf(string $filePath, string $outputFilePath): void;
 }
 
