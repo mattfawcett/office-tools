@@ -61,7 +61,7 @@ class Implementation implements WordConverter, WordProtecter, ExcelConverter, Po
             throw new ValidationException('Invalid legacy format ' . $legacyFormat);
         }
 
-        $this->generalConverter->convert($filePath, $outputFilePath);
+        $this->convert($filePath, $outputFilePath);
     }
 
     private function convert(string $filePath, string $outputFilePath, array $qsParams = []): void
