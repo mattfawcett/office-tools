@@ -18,10 +18,10 @@ class WordConverterWrapper implements WordConverter
         return new self($wordConverter);
     }
 
-    public function convertToPdf(string $filePath, string $outputFilePath): void
+    public function convertWordToPdf(string $filePath, string $outputFilePath): void
     {
         try {
-            $this->baseImplementation->convertToPdf($filePath, $outputFilePath);
+            $this->baseImplementation->convertWordToPdf($filePath, $outputFilePath);
             Configuration::logger()->info('Converted word file to pdf', [
                 'inputFilePath' => $filePath,
                 'outputFilePath' => $outputFilePath,

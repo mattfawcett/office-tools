@@ -12,7 +12,7 @@ class PowerpointTools implements PowerpointConverter
         $this->generalConverter = $client;
     }
 
-    public function convertToPdf(string $filePath, string $outputFilePath): void
+    public function convertPowerpointToPdf(string $filePath, string $outputFilePath): void
     {
         $this->generalConverter->convert($filePath, $outputFilePath);
     }

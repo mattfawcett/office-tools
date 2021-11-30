@@ -10,7 +10,7 @@ class LegacyFormatConverterTest extends TestCase
     public function testConvertInvalidFormat(LegacyFormatConverter $converter)
     {
         $this->expectException(ValidationException::class);
-        $converter->convert($this->inputFilePath('text.txt'), $this->outputFilePath($converter, 'text.txt'), 'txt');
+        $converter->convertLegacyFormat($this->inputFilePath('text.txt'), $this->outputFilePath($converter, 'text.txt'), 'txt');
     }
 
     /** @dataProvider legacyFormatConverterImplementations **/
@@ -20,7 +20,7 @@ class LegacyFormatConverterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'legacy-converted.docx');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->convert($inputPath, $outputPath, 'doc');
+            $converter->convertLegacyFormat($inputPath, $outputPath, 'doc');
         }
 
         $zip = $this->assertZip($outputPath);
@@ -38,7 +38,7 @@ class LegacyFormatConverterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'legacy-converted.xlsx');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->convert($inputPath, $outputPath, 'xls');
+            $converter->convertLegacyFormat($inputPath, $outputPath, 'xls');
         }
 
         $zip = $this->assertZip($outputPath);
@@ -59,7 +59,7 @@ class LegacyFormatConverterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'legacy-converted.pptx');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->convert($inputPath, $outputPath, 'ppt');
+            $converter->convertLegacyFormat($inputPath, $outputPath, 'ppt');
         }
 
         $zip = $this->assertZip($outputPath);

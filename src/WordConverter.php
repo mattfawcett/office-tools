@@ -8,5 +8,5 @@ interface WordConverter
      *
      * docm files are not currently supported (UI is hidden to use pdf output for docm files)
      **/
-    public function convertToPdf(string $filePath, string $outputFilePath): void;
+    public function convertWordToPdf(string $filePath, string $outputFilePath): void;
 }

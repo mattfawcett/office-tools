@@ -13,7 +13,7 @@ class LegacyFormatConverter implements LegacyFormatConverterInterface
         $this->client = $client;
     }
 
-    public function convert(string $filePath, string $outputFilePath, string $legacyFormat): void
+    public function convertLegacyFormat(string $filePath, string $outputFilePath, string $legacyFormat): void
     {
         $newFormat = LegacyFormatConverterInterface::LEGACY_FORMATS[$legacyFormat] ?? null;
         if (!$newFormat) {

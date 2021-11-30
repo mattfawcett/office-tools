@@ -12,7 +12,7 @@ class WordProtecterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'basic.encrypted.docx');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->passwordProtect($inputPath, $outputPath, 'letmein');
+            $converter->passwordProtectWordFile($inputPath, $outputPath, 'letmein');
         }
 
         $this->assertEquals('application/encrypted', mime_content_type($outputPath));

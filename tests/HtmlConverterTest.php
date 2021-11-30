@@ -14,7 +14,7 @@ class HtmlConverterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'header-footer-in-single-table.html.docx');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->convertToWord($inputPath, $outputPath);
+            $converter->convertHtmlToWord($inputPath, $outputPath);
         }
 
         $zip = $this->assertZip($outputPath);
@@ -31,7 +31,7 @@ class HtmlConverterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'header-footer-in-sub-tables.html.docx');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->convertToWord($inputPath, $outputPath);
+            $converter->convertHtmlToWord($inputPath, $outputPath);
         }
 
         $zip = $this->assertZip($outputPath);
@@ -57,6 +57,6 @@ class HtmlConverterTest extends TestCase
     {
         $converter = Factory::wordConverter(Factory::SYSTEM_CONVERTAPI_DOT_COM);
 
-        $converter->convertToPdf($docxPath, $pdfPath);
+        $converter->convertWordToPdf($docxPath, $pdfPath);
     }
 }

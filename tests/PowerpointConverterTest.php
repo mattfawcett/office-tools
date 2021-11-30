@@ -13,7 +13,7 @@ class PowerpointConverterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'basic.pptx.pdf');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->convertToPdf($inputPath, $outputPath);
+            $converter->convertPowerpointToPdf($inputPath, $outputPath);
         }
 
         $this->assertFileIsAPdf($outputPath);

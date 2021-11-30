@@ -12,7 +12,7 @@ class HtmlTools implements HtmlConverter
         $this->generalConverter = $client;
     }
 
-    public function convertToWord(string $filePath, string $outputFilePath): void
+    public function convertHtmlToWord(string $filePath, string $outputFilePath): void
     {
         $this->generalConverter->convert($filePath, $outputFilePath);
     }

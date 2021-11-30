@@ -13,7 +13,7 @@ class HtmlTools implements HtmlConverter
         $this->client = $client;
     }
 
-    public function convertToWord(string $filePath, string $outputFilePath): void
+    public function convertHtmlToWord(string $filePath, string $outputFilePath): void
     {
         if (!preg_match('/\.(htm|html)$/', $filePath, $matches)) {
             throw new ValidationException('Html document must have html or htm extension');

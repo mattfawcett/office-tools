@@ -12,7 +12,7 @@ class WordConverterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'basic.docx.pdf');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->convertToPdf($inputPath, $outputPath);
+            $converter->convertWordToPdf($inputPath, $outputPath);
         }
 
         $this->assertFileIsAPdf($outputPath);
@@ -31,7 +31,7 @@ class WordConverterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'toc-not-updated.docx.pdf');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->convertToPdf($inputPath, $outputPath);
+            $converter->convertWordToPdf($inputPath, $outputPath);
         }
 
         $this->assertFileIsAPdf($outputPath);
@@ -50,7 +50,7 @@ class WordConverterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'legacy.doc.pdf');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->convertToPdf($inputPath, $outputPath);
+            $converter->convertWordToPdf($inputPath, $outputPath);
         }
 
         $this->assertFileIsAPdf($outputPath);

@@ -9,5 +9,5 @@ interface LegacyFormatConverter
         'ppt' => 'pptx'
     ];
 
-    public function convert(string $filePath, string $outputFilePath, string $legacyFormat): void;
+    public function convertLegacyFormat(string $filePath, string $outputFilePath, string $legacyFormat): void;
 }

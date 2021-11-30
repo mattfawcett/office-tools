@@ -6,5 +6,5 @@ interface HtmlConverter
     /**
      * Convert either a .html file to .docx
      **/
-    public function convertToWord(string $filePath, string $outputFilePath): void;
+    public function convertHtmlToWord(string $filePath, string $outputFilePath): void;
 }
