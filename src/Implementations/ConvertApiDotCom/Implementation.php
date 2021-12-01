@@ -2,7 +2,6 @@
 namespace WebmergeOfficeTools\Implementations\ConvertApiDotCom;
 
 use WebmergeOfficeTools\ExcelConverter;
-use WebmergeOfficeTools\Exceptions\Exception;
 use WebmergeOfficeTools\Exceptions\ValidationException;
 use WebmergeOfficeTools\HtmlConverter;
 use WebmergeOfficeTools\LegacyFormatConverter;
@@ -106,7 +105,6 @@ class Implementation implements WordConverter, WordProtecter, ExcelConverter, Po
 
     public function convertHtmlToExcel(string $filePath, string $outputFilePath): void
     {
-        throw new Exception('Not implemented yet');
         if (!preg_match('/\.(htm|html)$/', $filePath, $matches)) {
             throw new ValidationException('Html document must have html or htm extension');
         }

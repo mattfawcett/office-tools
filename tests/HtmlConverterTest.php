@@ -43,7 +43,8 @@ class HtmlConverterTest extends TestCase
         $docxHash = sha1_file($outputPath);
         $pdfPath = $this->outputFilePath($converter, "header-footer-in-sub-tables.html.docx.$docxHash.pdf");
         if (!file_exists($pdfPath)) {
-            $this->convertToPdf($outputPath, $pdfPath);
+            $converter = Factory::wordConverter(Factory::SYSTEM_CONVERTAPI_DOT_COM);
+            $converter->convertWordToPdf($outputPath, $pdfPath);
         }
 
         $png = $this->toPng($pdfPath);
@@ -56,11 +57,8 @@ class HtmlConverterTest extends TestCase
     /** @dataProvider htmlConverterImplementations **/
     public function testConvertHtmlToExcel(HtmlConverter $converter)
     {
-        if ($converter->implementationName() === 'convert_api_dot_com') {
-            $this->markTestSkipped('Html to xlsx is not yet implemented on convertapi.com');
-        }
-        $inputPath = $this->inputFilePath('header-footer-in-sub-tables.html');
-        $outputPath = $this->outputFilePath($converter, 'header-footer-in-sub-tables.html.xlsx');
+        $inputPath = $this->inputFilePath('html-for-excel-conversion.html');
+        $outputPath = $this->outputFilePath($converter, 'html-for-excel-conversion.html.xlsx');
 
         if ($this->shouldRegenerate($outputPath)) {
             $converter->convertHtmlToExcel($inputPath, $outputPath);
@@ -68,12 +66,18 @@ class HtmlConverterTest extends TestCase
 
         $zip = $this->assertZip($outputPath);
         $fileIndex = $this->assertZipHasFileNamed($zip, 'xl/workbook.xml');
-    }
 
-    private function convertToPdf(string $docxPath, string $pdfPath): void
-    {
-        $converter = Factory::wordConverter(Factory::SYSTEM_CONVERTAPI_DOT_COM);
+        $xlsxHash = sha1_file($outputPath);
+        $pdfPath = $this->outputFilePath($converter, "html-for-excel-conversion.html.xlsx.$xlsxHash.pdf");
+        if (!file_exists($pdfPath)) {
+            $converter = Factory::excelConverter(Factory::SYSTEM_CONVERTAPI_DOT_COM);
+            $converter->convertExcelToPdf($outputPath, $pdfPath);
+        }
 
-        $converter->convertWordToPdf($docxPath, $pdfPath);
+        $png = $this->toPng($pdfPath);
+
+        $benchmark = $this->toPng($this->benchmarkFilePath('html-for-excel-conversion.html.xlsx.pdf'));
+
+        $this->assertImagesSimilar($benchmark, $png);
     }
 }
