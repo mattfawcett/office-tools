@@ -33,22 +33,19 @@ class Wrapper implements WordConverter
         $this->withLogging(
             fn() => $this->baseImplementation->convertWordToPdf($filePath, $outputFilePath),
             "Converting word file to pdf",
-            [
-                'inputFilePath' => $filePath,
-                'outputFilePath' => $outputFilePath,
-            ]
+            compact('filePath', 'outputFilePath')
         );
     }
 
     private function withLogging(callable $run, string $message, array $additionalData): void
     {
-         $debugBacktrace = array_map(function ($trace) {
-             return [
-                 'file' => $trace['file'] ?? null,
-                 'line' => $trace['line'] ?? null,
-                 'function' => $trace['function'] ?? null,
-             ];
-         }, array_slice(debug_backtrace(), 0, 5));
+        $debugBacktrace = array_map(function ($trace) {
+            return [
+                'file' => $trace['file'] ?? null,
+                'line' => $trace['line'] ?? null,
+                'function' => $trace['function'] ?? null,
+            ];
+        }, array_slice(debug_backtrace(), 0, 5));
 
 
         $startTimeMicroSeconds = microtime(true);

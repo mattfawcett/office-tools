@@ -1,7 +1,7 @@
 <?php
 namespace WebmergeOfficeTools\Logging;
 
-class StdoutLogger implements LoggingInterface
+class StdErrLogger implements LoggingInterface
 {
     public function info(string $message, array $data): void
     {
@@ -20,6 +20,12 @@ class StdoutLogger implements LoggingInterface
 
     private function log(string $level, string $message, array $data): void
     {
-        echo sprintf("[%s] %s - %s", $level, $message, json_encode($data, JSON_PRETTY_PRINT)) . PHP_EOL;
+        $content = [
+            'message' => $message,
+            'level' => $level,
+            'context' => $data,
+        ];
+
+        fwrite(STDERR, json_encode($content) . PHP_EOL);
     }
 }

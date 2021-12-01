@@ -2,7 +2,7 @@
 namespace WebmergeOfficeTools;
 
 use WebmergeOfficeTools\Logging\LoggingInterface;
-use WebmergeOfficeTools\Logging\StdoutLogger;
+use WebmergeOfficeTools\Logging\StdErrLogger;
 
 class Configuration
 {
@@ -29,6 +29,6 @@ class Configuration
 
     public static function logger(): LoggingInterface
     {
-        return self::$logger ?? new StdoutLogger;
+        return self::$logger ?? new StdErrLogger;
     }
 }
