@@ -9,6 +9,7 @@ use WebmergeOfficeTools\HtmlConverter;
 use WebmergeOfficeTools\LegacyFormatConverter;
 use WebmergeOfficeTools\PowerpointConverter;
 use WebmergeOfficeTools\WordConverter;
+use WebmergeOfficeTools\WordFieldsUpdater;
 use WebmergeOfficeTools\WordProtecter;
 use ZipArchive;
 
@@ -71,6 +72,15 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     /** @return HtmlConverter[] **/
     public function htmlConverterImplementations(): array
+    {
+        return [
+            [Factory::htmlConverter(Factory::SYSTEM_LEGACY_WINDOWS)],
+            [Factory::htmlConverter(Factory::SYSTEM_CONVERTAPI_DOT_COM)],
+        ];
+    }
+
+    /** @return WordFieldsUpdater[] **/
+    public function wordFieldUpdaterImplementations(): array
     {
         return [
             [Factory::htmlConverter(Factory::SYSTEM_LEGACY_WINDOWS)],

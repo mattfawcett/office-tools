@@ -11,9 +11,10 @@ use WebmergeOfficeTools\HtmlConverter;
 use WebmergeOfficeTools\LegacyFormatConverter;
 use WebmergeOfficeTools\PowerpointConverter;
 use WebmergeOfficeTools\WordConverter;
+use WebmergeOfficeTools\WordFieldsUpdater;
 use WebmergeOfficeTools\WordProtecter;
 
-class Implementation implements WordConverter, WordProtecter, ExcelConverter, PowerpointConverter, HtmlConverter, LegacyFormatConverter
+class Implementation implements WordConverter, WordProtecter, ExcelConverter, PowerpointConverter, HtmlConverter, LegacyFormatConverter, WordFieldsUpdater
 {
     private const ENDPOINT = 'https://windows.webmerge.me/convert';
 
@@ -66,6 +67,11 @@ class Implementation implements WordConverter, WordProtecter, ExcelConverter, Po
             throw new ValidationException('Invalid legacy format ' . $legacyFormat);
         }
 
+        $this->convert($filePath, $outputFilePath);
+    }
+
+    public function updateFieldsInWordDocument(string $filePath, string $outputFilePath): void
+    {
         $this->convert($filePath, $outputFilePath);
     }
 

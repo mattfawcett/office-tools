@@ -58,6 +58,15 @@ class Factory
         }
     }
 
+    public static function wordFieldsUpdater(string $system = null): WordFieldsUpdater
+    {
+        if ($system === self::SYSTEM_LEGACY_WINDOWS) {
+            return Wrapper::wrap(self::legacyWindowsImplementation());
+        } else {
+            return Wrapper::wrap(self::convertApiDotComImplementation());
+        }
+    }
+
     public static function legacyFormatConverter(string $system = null): LegacyFormatConverter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {

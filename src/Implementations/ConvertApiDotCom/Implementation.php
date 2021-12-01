@@ -7,9 +7,10 @@ use WebmergeOfficeTools\HtmlConverter;
 use WebmergeOfficeTools\LegacyFormatConverter;
 use WebmergeOfficeTools\PowerpointConverter;
 use WebmergeOfficeTools\WordConverter;
+use WebmergeOfficeTools\WordFieldsUpdater;
 use WebmergeOfficeTools\WordProtecter;
 
-class Implementation implements WordConverter, WordProtecter, ExcelConverter, PowerpointConverter, HtmlConverter, LegacyFormatConverter
+class Implementation implements WordConverter, WordProtecter, ExcelConverter, PowerpointConverter, HtmlConverter, LegacyFormatConverter, WordFieldsUpdater
 {
     private HttpClient $client;
 
@@ -130,6 +131,18 @@ class Implementation implements WordConverter, WordProtecter, ExcelConverter, Po
 
         $conversionResponse = $this->client->post("/convert/$legacyFormat/to/$newFormat", [
             'File' => $fileId,
+        ]);
+
+        file_put_contents($outputFilePath, base64_decode($conversionResponse['Files'][0]['FileData']));
+    }
+
+    public function updateFieldsInWordDocument(string $filePath, string $outputFilePath): void
+    {
+        $fileId = $this->client->uploadFile($filePath)['FileId'];
+
+        $conversionResponse = $this->client->post("/convert/docx/to/docx", [
+            'File' => $fileId,
+            'UpdateToc' => 'true',
         ]);
 
         file_put_contents($outputFilePath, base64_decode($conversionResponse['Files'][0]['FileData']));

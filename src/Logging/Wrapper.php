@@ -10,9 +10,10 @@ use WebmergeOfficeTools\HtmlConverter;
 use WebmergeOfficeTools\LegacyFormatConverter;
 use WebmergeOfficeTools\PowerpointConverter;
 use WebmergeOfficeTools\WordConverter;
+use WebmergeOfficeTools\WordFieldsUpdater;
 use WebmergeOfficeTools\WordProtecter;
 
-class Wrapper implements WordConverter, ExcelConverter, PowerpointConverter, HtmlConverter, LegacyFormatConverter, WordProtecter
+class Wrapper implements WordConverter, ExcelConverter, PowerpointConverter, HtmlConverter, LegacyFormatConverter, WordProtecter, WordFieldsUpdater
 {
     private $baseImplementation;
 
@@ -111,6 +112,18 @@ class Wrapper implements WordConverter, ExcelConverter, PowerpointConverter, Htm
         $this->withLogging(
             fn () => $this->baseImplementation->passwordProtectWordFile($filePath, $outputFilePath, $password),
             "Password protecting word file",
+            compact('filePath', 'outputFilePath')
+        );
+    }
+
+    public function updateFieldsInWordDocument(string $filePath, string $outputFilePath): void
+    {
+        $this->assertBaseImplementationIs(WordFieldsUpdater::class);
+        assert($this->baseImplementation instanceof WordFieldsUpdater);
+
+        $this->withLogging(
+            fn () => $this->baseImplementation->updateFieldsInWordDocument($filePath, $outputFilePath),
+            "Updating fields (toc) in a word document",
             compact('filePath', 'outputFilePath')
         );
     }
