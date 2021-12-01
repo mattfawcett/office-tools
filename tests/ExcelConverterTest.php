@@ -12,7 +12,7 @@ class ExcelConverterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'basic.xlsx.pdf');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->convertToPdf($inputPath, $outputPath);
+            $converter->convertExcelToPdf($inputPath, $outputPath);
         }
 
         $this->assertFileIsAPdf($outputPath);
@@ -31,7 +31,7 @@ class ExcelConverterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'legacy.xls.pdf');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->convertToPdf($inputPath, $outputPath);
+            $converter->convertExcelToPdf($inputPath, $outputPath);
         }
 
         $this->assertFileIsAPdf($outputPath);
@@ -50,7 +50,7 @@ class ExcelConverterTest extends TestCase
         $outputPath = $this->outputFilePath($converter, 'needs-recalc.xlsx.pdf');
 
         if ($this->shouldRegenerate($outputPath)) {
-            $converter->convertToPdf($inputPath, $outputPath);
+            $converter->convertExcelToPdf($inputPath, $outputPath);
         }
 
         $this->assertFileIsAPdf($outputPath);
