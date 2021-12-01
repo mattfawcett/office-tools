@@ -39,7 +39,7 @@ class Implementation implements WordConverter, WordProtecter, ExcelConverter, Po
         $this->convert($filePath, $outputFilePath, ['password' => $password]);
     }
 
-    public function convertToPdf(string $filePath, string $outputFilePath): void
+    public function convertExcelToPdf(string $filePath, string $outputFilePath): void
     {
         $this->convert($filePath, $outputFilePath);
     }

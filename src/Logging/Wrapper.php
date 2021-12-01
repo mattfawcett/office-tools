@@ -1,12 +1,18 @@
 <?php
+
 namespace WebmergeOfficeTools\Logging;
 
 use RuntimeException;
 use WebmergeOfficeTools\Configuration;
+use WebmergeOfficeTools\ExcelConverter;
 use WebmergeOfficeTools\Exceptions\Exception;
+use WebmergeOfficeTools\HtmlConverter;
+use WebmergeOfficeTools\LegacyFormatConverter;
+use WebmergeOfficeTools\PowerpointConverter;
 use WebmergeOfficeTools\WordConverter;
+use WebmergeOfficeTools\WordProtecter;
 
-class Wrapper implements WordConverter
+class Wrapper implements WordConverter, ExcelConverter, PowerpointConverter, HtmlConverter, LegacyFormatConverter, WordProtecter
 {
     private $baseImplementation;
 
@@ -31,8 +37,68 @@ class Wrapper implements WordConverter
         assert($this->baseImplementation instanceof WordConverter);
 
         $this->withLogging(
-            fn() => $this->baseImplementation->convertWordToPdf($filePath, $outputFilePath),
+            fn () => $this->baseImplementation->convertWordToPdf($filePath, $outputFilePath),
             "Converting word file to pdf",
+            compact('filePath', 'outputFilePath')
+        );
+    }
+
+    public function convertExcelToPdf(string $filePath, string $outputFilePath): void
+    {
+        $this->assertBaseImplementationIs(ExcelConverter::class);
+        assert($this->baseImplementation instanceof ExcelConverter);
+
+        $this->withLogging(
+            fn () => $this->baseImplementation->convertExcelToPdf($filePath, $outputFilePath),
+            "Converting excel file to pdf",
+            compact('filePath', 'outputFilePath')
+        );
+    }
+
+    public function convertPowerpointToPdf(string $filePath, string $outputFilePath): void
+    {
+        $this->assertBaseImplementationIs(PowerpointConverter::class);
+        assert($this->baseImplementation instanceof PowerpointConverter);
+
+        $this->withLogging(
+            fn () => $this->baseImplementation->convertPowerpointToPdf($filePath, $outputFilePath),
+            "Converting powerpoint file to pdf",
+            compact('filePath', 'outputFilePath')
+        );
+    }
+
+    public function convertHtmlToWord(string $filePath, string $outputFilePath): void
+    {
+        $this->assertBaseImplementationIs(HtmlConverter::class);
+        assert($this->baseImplementation instanceof HtmlConverter);
+
+        $this->withLogging(
+            fn () => $this->baseImplementation->convertHtmlToWord($filePath, $outputFilePath),
+            "Converting html file to word",
+            compact('filePath', 'outputFilePath')
+        );
+    }
+
+    public function convertLegacyFormat(string $filePath, string $outputFilePath, string $legacyFormat): void
+    {
+        $this->assertBaseImplementationIs(LegacyFormatConverter::class);
+        assert($this->baseImplementation instanceof LegacyFormatConverter);
+
+        $this->withLogging(
+            fn () => $this->baseImplementation->convertLegacyFormat($filePath, $outputFilePath, $legacyFormat),
+            "Converting legacy office format to newer xml based format",
+            compact('filePath', 'outputFilePath', 'legacyFormat')
+        );
+    }
+
+    public function passwordProtectWordFile(string $filePath, string $outputFilePath, string $password): void
+    {
+        $this->assertBaseImplementationIs(WordProtecter::class);
+        assert($this->baseImplementation instanceof WordProtecter);
+
+        $this->withLogging(
+            fn () => $this->baseImplementation->passwordProtectWordFile($filePath, $outputFilePath, $password),
+            "Password protecting word file",
             compact('filePath', 'outputFilePath')
         );
     }

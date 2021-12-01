@@ -18,52 +18,52 @@ class Factory
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
             return Wrapper::wrap(self::legacyWindowsImplementation());
         } else {
-            return Wrapper::wrap(self::legacyConvertApiDotComImplementation());
+            return Wrapper::wrap(self::convertApiDotComImplementation());
         }
     }
 
     public static function excelConverter(string $system = null): ExcelConverter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
-            return self::legacyWindowsImplementation();
+            return Wrapper::wrap(self::legacyWindowsImplementation());
         } else {
-            return self::legacyConvertApiDotComImplementation();
+            return Wrapper::wrap(self::convertApiDotComImplementation());
         }
     }
 
     public static function powerpointConverter(string $system = null): PowerpointConverter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
-            return self::legacyWindowsImplementation();
+            return Wrapper::wrap(self::legacyWindowsImplementation());
         } else {
-            return self::legacyConvertApiDotComImplementation();
+            return Wrapper::wrap(self::convertApiDotComImplementation());
         }
     }
 
     public static function htmlConverter(string $system = null): HtmlConverter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
-            return self::legacyWindowsImplementation();
+            return Wrapper::wrap(self::legacyWindowsImplementation());
         } else {
-            return self::legacyConvertApiDotComImplementation();
+            return Wrapper::wrap(self::convertApiDotComImplementation());
         }
     }
 
     public static function wordProtecter(string $system = null): WordProtecter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
-            return self::legacyWindowsImplementation();
+            return Wrapper::wrap(self::legacyWindowsImplementation());
         } else {
-            return self::legacyConvertApiDotComImplementation();
+            return Wrapper::wrap(self::convertApiDotComImplementation());
         }
     }
 
     public static function legacyFormatConverter(string $system = null): LegacyFormatConverter
     {
         if ($system === self::SYSTEM_LEGACY_WINDOWS) {
-            return self::legacyWindowsImplementation();
+            return Wrapper::wrap(self::legacyWindowsImplementation());
         } else {
-            return self::legacyConvertApiDotComImplementation();
+            return Wrapper::wrap(self::convertApiDotComImplementation());
         }
     }
 
@@ -83,7 +83,7 @@ class Factory
         });
     }
 
-    private static function legacyConvertApiDotComImplementation(): ConvertApiDotCom\Implementation
+    private static function convertApiDotComImplementation(): ConvertApiDotCom\Implementation
     {
         return self::cacheOrBuild(ConvertApiDotCom\Implementation::class, function() {
             $http = (new ConvertApiDotCom\HttpClient(new GuzzleHttp\Client))->setSecret('POOUE3or0L5CvOAP');

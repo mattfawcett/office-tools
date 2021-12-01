@@ -56,7 +56,7 @@ class Implementation implements WordConverter, WordProtecter, ExcelConverter, Po
         file_put_contents($outputFilePath, base64_decode($conversionResponse['Files'][0]['FileData']));
     }
 
-    public function convertToPdf(string $filePath, string $outputFilePath): void
+    public function convertExcelToPdf(string $filePath, string $outputFilePath): void
     {
         if (!preg_match('/\.(xlsx|xls)$/', $filePath, $matches)) {
             throw new ValidationException('Excel document must have xlsx extension');
