@@ -54,6 +54,11 @@ class Implementation implements WordConverter, WordProtecter, ExcelConverter, Po
         $this->convert($filePath, $outputFilePath);
     }
 
+    public function convertHtmlToExcel(string $filePath, string $outputFilePath): void
+    {
+        $this->convert($filePath, $outputFilePath);
+    }
+
     public function convertLegacyFormat(string $filePath, string $outputFilePath, string $legacyFormat): void
     {
         $newFormat = LegacyFormatConverter::LEGACY_FORMATS[$legacyFormat] ?? null;

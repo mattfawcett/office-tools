@@ -79,6 +79,18 @@ class Wrapper implements WordConverter, ExcelConverter, PowerpointConverter, Htm
         );
     }
 
+    public function convertHtmlToExcel(string $filePath, string $outputFilePath): void
+    {
+        $this->assertBaseImplementationIs(HtmlConverter::class);
+        assert($this->baseImplementation instanceof HtmlConverter);
+
+        $this->withLogging(
+            fn () => $this->baseImplementation->convertHtmlToExcel($filePath, $outputFilePath),
+            "Converting html file to excel",
+            compact('filePath', 'outputFilePath')
+        );
+    }
+
     public function convertLegacyFormat(string $filePath, string $outputFilePath, string $legacyFormat): void
     {
         $this->assertBaseImplementationIs(LegacyFormatConverter::class);

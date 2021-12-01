@@ -7,7 +7,7 @@ use WebmergeOfficeTools\HtmlConverter;
 class HtmlConverterTest extends TestCase
 {
     /** @dataProvider htmlConverterImplementations **/
-    public function testConvertWhenHeaderAndFooterInSingleTable(HtmlConverter $converter)
+    public function testConvertHtmlToWordWhenHeaderAndFooterInSingleTable(HtmlConverter $converter)
     {
         $this->markTestSkipped('Newer office does not seem to like both header and footer in single table');
         $inputPath = $this->inputFilePath('header-footer-in-single-table.html');
@@ -25,7 +25,7 @@ class HtmlConverterTest extends TestCase
     }
 
     /** @dataProvider htmlConverterImplementations **/
-    public function testConvertWhenHeaderAndFooterInSubTables(HtmlConverter $converter)
+    public function testConvertHtmlToWordWhenHeaderAndFooterInSubTables(HtmlConverter $converter)
     {
         $inputPath = $this->inputFilePath('header-footer-in-sub-tables.html');
         $outputPath = $this->outputFilePath($converter, 'header-footer-in-sub-tables.html.docx');
@@ -51,6 +51,23 @@ class HtmlConverterTest extends TestCase
         $benchmark = $this->toPng($this->benchmarkFilePath('header-footer-in-sub-tables.html.docx.pdf'));
 
         $this->assertImagesSimilar($benchmark, $png);
+    }
+
+    /** @dataProvider htmlConverterImplementations **/
+    public function testConvertHtmlToExcel(HtmlConverter $converter)
+    {
+        if ($converter->implementationName() === 'convert_api_dot_com') {
+            $this->markTestSkipped('Html to xlsx is not yet implemented on convertapi.com');
+        }
+        $inputPath = $this->inputFilePath('header-footer-in-sub-tables.html');
+        $outputPath = $this->outputFilePath($converter, 'header-footer-in-sub-tables.html.xlsx');
+
+        if ($this->shouldRegenerate($outputPath)) {
+            $converter->convertHtmlToExcel($inputPath, $outputPath);
+        }
+
+        $zip = $this->assertZip($outputPath);
+        $fileIndex = $this->assertZipHasFileNamed($zip, 'xl/workbook.xml');
     }
 
     private function convertToPdf(string $docxPath, string $pdfPath): void
