@@ -1,6 +1,7 @@
 <?php
 namespace Tests;
 
+use SimpleXMLElement;
 use WebmergeOfficeTools\WordFieldsUpdater;
 
 class WordFieldsUpdaterTest extends TestCase
@@ -15,7 +16,30 @@ class WordFieldsUpdaterTest extends TestCase
             $converter->updateFieldsInWordDocument($inputPath, $outputPath);
         }
 
-        $zip = $this->assertZip($outputPath);
-        $this->assertZipHasFileNamed($zip, 'word/document.xml');
+        $this->assertToc($inputPath, [
+            'Section 1', '1',
+            'Section 2', '1',
+            'Section 3', '1',
+        ]);
+
+        $this->assertToc($outputPath, [
+            'Section 1', '1',
+            'Section 2', '2',
+            'Section 3', '2',
+        ]);
+    }
+
+    private function assertToc(string $pathToDocx, array $data)
+    {
+        $zip = $this->assertZip($pathToDocx);
+        $index = $this->assertZipHasFileNamed($zip, 'word/document.xml');
+
+        $document = $zip->getFromIndex($index);
+        $xml = new SimpleXMLElement($document);
+        $contents = array_map(function($line) {
+            return (string) $line;
+        }, $xml->xpath('//w:sdtContent//w:hyperlink//w:t'));
+
+        $this->assertEquals($data, $contents);
     }
 }
