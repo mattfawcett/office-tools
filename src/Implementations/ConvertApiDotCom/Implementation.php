@@ -126,7 +126,6 @@ class Implementation implements WordConverter, WordProtecter, ExcelConverter, Po
             throw new ValidationException('Invalid legacy format ' . $legacyFormat);
         }
 
-
         $fileId = $this->client->uploadFile($filePath)['FileId'];
 
         $conversionResponse = $this->client->post("/convert/$legacyFormat/to/$newFormat", [

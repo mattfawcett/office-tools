@@ -5,7 +5,7 @@ namespace WebmergeOfficeTools\Logging;
 use RuntimeException;
 use WebmergeOfficeTools\Configuration;
 use WebmergeOfficeTools\ExcelConverter;
-use WebmergeOfficeTools\Exceptions\Exception;
+use WebmergeOfficeTools\Exceptions\ApiException;
 use WebmergeOfficeTools\HtmlConverter;
 use WebmergeOfficeTools\LegacyFormatConverter;
 use WebmergeOfficeTools\PowerpointConverter;
@@ -148,7 +148,7 @@ class Wrapper implements WordConverter, ExcelConverter, PowerpointConverter, Htm
                 'implementationName' => $this->baseImplementation->implementationName(),
                 'debug_backtrace' => $debugBacktrace,
             ]));
-        } catch (Exception $e) {
+        } catch (ApiException $e) {
             $deltaTimeMilliseconds = intval(1000 * (microtime(true) - $startTimeMicroSeconds));
             Configuration::logger()->error("$message: failure", array_merge($additionalData, [
                 'deltaTimeMilliseconds' => $deltaTimeMilliseconds,
